@@ -1,0 +1,16 @@
+{% import_yaml 'php_fpm/defaults.yaml' as defaults %}
+{% import_yaml 'php_fpm/osmap.yaml' as osmap %}
+
+{# get the settings for the os_family grain #}
+{% set osfam = salt['grains.filter_by'](osmap) or {} %}
+
+{# merge the os family/codename specific data over the defaults #}
+{% do defaults.php_fpm.update(osfam) %}
+
+{# merge the pillar:lookup dict into the defaults/os specific dict #}
+{% set lookup = salt['pillar.get']('php_fpm:lookup',
+                                   default=defaults.php_fpm,
+                                   merge=True) %}
+
+{# merge the actual php_fpm pillar into the above combined dict #}
+{% set php_fpm = salt['pillar.get']('php_fpm', default=lookup, merge=True) %}

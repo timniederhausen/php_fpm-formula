@@ -1,0 +1,10 @@
+FreeBSD:
+  packages:
+    - php72
+  service: php-fpm
+  main_config_path: /usr/local/etc/php-fpm.conf
+  pool_directory: /usr/local/etc/php-fpm.d/
+  config:
+    global:
+      - pid: run/php-fpm.pid
+      - include: /usr/local/etc/php-fpm.d/*.conf

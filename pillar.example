@@ -1,0 +1,22 @@
+php_fpm:
+  config:
+    global:
+      - pid: run/php-fpm.pid
+      - error_log: log/php-fpm.log
+      - include: /usr/local/etc/php-fpm.d/*.conf
+  pools:
+    www:
+      enabled: true
+      config:
+        - prefix: /usr/local/www/fpm-pool
+        - user: www
+        - group: www
+        - listen: listen.sock
+        - 'listen.owner': www
+        - 'listen.group': www
+        - pm: dynamic
+        - 'pm.max_children': 5
+        - 'pm.start_server': 2
+        - 'pm.max_children': 5
+        - 'pm.min_spare_servers': 1
+        - 'pm.max_spare_servers': 3

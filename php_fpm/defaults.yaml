@@ -1,0 +1,3 @@
+php_fpm:
+  service_enabled: true
+  pools: {}
